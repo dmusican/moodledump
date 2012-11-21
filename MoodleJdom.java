@@ -49,7 +49,7 @@ public class MoodleJdom {
     }
 
 
-    public static void processAssign(Element activity) throws JDOMException, IOException {
+    public static void processAssign(PrintWriter out, Element activity) throws JDOMException, IOException {
         String modulename = activity.getChildText("modulename");
         String moduleid = activity.getChildText("moduleid");
         String title = activity.getChildText("title");
@@ -63,10 +63,19 @@ public class MoodleJdom {
         String intro = assign.getChildText("intro");
         String duedate = assign.getChildText("duedate");
 
-        System.out.println(modulename + "/" + moduleid + ": " + title);
-        System.out.println(new Date(Long.parseLong(duedate)*1000));
-        System.out.println(intro);
-        System.out.println();
+
+        PrintWriter assignout = new PrintWriter(new FileWriter("output/assign" + moduleid + ".html"));
+        assignout.println(intro);
+        assignout.close();
+
+        //System.out.println(modulename + "/" + moduleid + ": " + title);
+        //System.out.println(new Date(Long.parseLong(duedate)*1000));
+        //System.out.println(intro);
+        //System.out.println();
+
+
+        out.println("<dt><a href=\"assign" + moduleid + ".html\">" + title + "</a></dt>");
+        out.println("<dd>Due " + new Date(Long.parseLong(duedate)*1000) + "</dd>");
     }
 
 
@@ -136,8 +145,7 @@ public class MoodleJdom {
                     else if (modulename.equals("url"))
                         processUrl(out,activity);
                     else if (modulename.equals("assign"))
-                        //processAssign(activity);
-                        continue;
+                        processAssign(out,activity);
                     else if (modulename.equals("label"))
                         processLabel(out,activity);
                     else {
