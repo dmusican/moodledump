@@ -1,3 +1,6 @@
+// HTML blocks don't backup. Stop using them for links in the future,
+// to make conversion of them easier.
+
 import org.jdom2.*;
 import org.jdom2.input.*;
 import java.io.*;
@@ -104,5 +107,8 @@ public class MoodleJdom {
 		System.exit(1);
 	    }
 	}
+
+	Scanner template = new Scanner(new File("template.html"));
+	
     }
 }
