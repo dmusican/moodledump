@@ -64,8 +64,19 @@ public class MoodleJdom {
         String duedate = assign.getChildText("duedate");
 
 
-        PrintWriter assignout = new PrintWriter(new FileWriter("output/assign" + moduleid + ".html"));
-        assignout.println(intro);
+        PrintWriter assignout = new PrintWriter(new FileWriter("output/assigns/assign" + moduleid + ".html"));
+
+        Scanner template = new Scanner(new File("assigntemplate.html"));
+
+        while (template.hasNextLine()) {
+            String line = template.nextLine();
+            if (line.equals("|||TITLE|||"))
+                assignout.println(title);
+            else if (line.equals("|||TEXT|||"))
+                assignout.println(intro);
+            else
+                assignout.println(line);
+        }
         assignout.close();
 
         //System.out.println(modulename + "/" + moduleid + ": " + title);
@@ -74,7 +85,7 @@ public class MoodleJdom {
         //System.out.println();
 
 
-        out.println("<dt><a href=\"assign" + moduleid + ".html\">" + title + "</a></dt>");
+        out.println("<dt><a href=\"assigns/assign" + moduleid + ".html\">" + title + "</a></dt>");
         out.println("<dd>Due " + new Date(Long.parseLong(duedate)*1000) + "</dd>");
     }
 
@@ -121,6 +132,8 @@ public class MoodleJdom {
         //     }
         // }
 
+        String prevSectionid = "";
+        int weekNum = 0;
         Scanner template = new Scanner(new File("template.html"));
         PrintWriter out = new PrintWriter(new FileWriter("output/index.html"));
         while (template.hasNextLine()) {
@@ -130,6 +143,15 @@ public class MoodleJdom {
             else if (line.equals("|||ASSIGNMENTS|||")) {
                 for (Element activity : activities.getChildren()) {
                     String modulename = activity.getChildText("modulename");
+                    String sectionid = activity.getChildText("sectionid");
+                    if (!sectionid.equals(prevSectionid)) {
+                        prevSectionid = sectionid;
+                        if (weekNum == 0) {
+                            out.println("<h1>General materials</h1>");
+                            weekNum++;
+                        } else
+                            out.println("<h1>Week " + weekNum++ +"</h1>");
+                    }
                     
                     if (!visible(activity))
                         // I don't want invisible activies appearing
