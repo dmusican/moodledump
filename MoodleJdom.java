@@ -89,6 +89,79 @@ public class MoodleJdom {
         out.println("<dd>Due " + new Date(Long.parseLong(duedate)*1000) + "</dd>");
     }
 
+    public static void processLongLabel(PrintWriter out, Element activity) throws JDOMException, IOException {
+        String modulename = activity.getChildText("modulename");
+        String moduleid = activity.getChildText("moduleid");
+        String title = activity.getChildText("title");
+        String directory = activity.getChildText("directory");
+
+        File file = new File("dump/" + directory + "/label.xml");
+        SAXBuilder builder = new SAXBuilder();
+        Document doc = builder.build(file);
+        Element subactivity = doc.getRootElement();
+        Element assign = subactivity.getChild("label");
+        //String title = assign.getChildText("name");
+        String intro = assign.getChildText("intro");
+
+
+        PrintWriter assignout = new PrintWriter(new FileWriter("output/labels/label" + moduleid + ".html"));
+
+        Scanner template = new Scanner(new File("labeltemplate.html"));
+
+        while (template.hasNextLine()) {
+            String line = template.nextLine();
+            if (line.equals("|||TITLE|||"))
+                assignout.println(title);
+            else if (line.equals("|||TEXT|||"))
+                assignout.println(intro);
+            else
+                assignout.println(line);
+        }
+        assignout.close();
+
+        //System.out.println(modulename + "/" + moduleid + ": " + title);
+        //System.out.println(new Date(Long.parseLong(duedate)*1000));
+        //System.out.println(intro);
+        //System.out.println();
+
+
+        out.println("<dt><a href=\"labels/label" + moduleid + ".html\">" + title + "</a></dt>");
+    }
+
+
+    public static void processPage(PrintWriter out, Element activity) throws JDOMException, IOException {
+        String modulename = activity.getChildText("modulename");
+        String moduleid = activity.getChildText("moduleid");
+        String title = activity.getChildText("title");
+        String directory = activity.getChildText("directory");
+
+        File file = new File("dump/" + directory + "/page.xml");
+        SAXBuilder builder = new SAXBuilder();
+        Document doc = builder.build(file);
+        Element subactivity = doc.getRootElement();
+        Element assign = subactivity.getChild("page");
+        String name = assign.getChildText("name");
+        String content = assign.getChildText("content");
+
+
+        PrintWriter assignout = new PrintWriter(new FileWriter("output/pages/page" + moduleid + ".html"));
+
+        Scanner template = new Scanner(new File("assigntemplate.html"));
+
+        while (template.hasNextLine()) {
+            String line = template.nextLine();
+            if (line.equals("|||TITLE|||"))
+                assignout.println(name);
+            else if (line.equals("|||TEXT|||"))
+                assignout.println(content);
+            else
+                assignout.println(line);
+        }
+        assignout.close();
+
+        out.println("<dt><a href=\"pages/page" + moduleid + ".html\">" + title + "</a></dt>");
+    }
+
 
 
     public static void main(String[] args) throws JDOMException, IOException {
@@ -144,6 +217,7 @@ public class MoodleJdom {
                 for (Element activity : activities.getChildren()) {
                     String modulename = activity.getChildText("modulename");
                     String sectionid = activity.getChildText("sectionid");
+                    String title=activity.getChildText("title");
                     if (!sectionid.equals(prevSectionid)) {
                         prevSectionid = sectionid;
                         if (weekNum == 0) {
@@ -168,8 +242,17 @@ public class MoodleJdom {
                         processUrl(out,activity);
                     else if (modulename.equals("assign"))
                         processAssign(out,activity);
-                    else if (modulename.equals("label"))
-                        processLabel(out,activity);
+                    else if (modulename.equals("label")) {
+                        System.out.println(title.substring(title.length()-3));
+                        if (title.substring(title.length()-3).equals("..."))
+                            processLongLabel(out,activity);
+                        else
+                            processLabel(out,activity);
+                                
+                    }
+                    else if (modulename.equals("page")) {
+                        processPage(out,activity);
+                    }
                     else {
                         System.out.println("Error: " + modulename);
                         System.exit(1);
