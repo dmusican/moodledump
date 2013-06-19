@@ -234,6 +234,9 @@ public class MoodleJdom {
                     else if (modulename.equals("forum"))
                         // forums don't go on my public webpage
                         continue;
+                    else if (modulename.equals("lti"))
+                        // lti, which is used for Piazza links, don't go public
+                        continue;
                     else if (modulename.equals("resource"))
                         // resources are files I put in Moodle, I hardly ever
                         // use them, and not worth the trouble
@@ -243,7 +246,7 @@ public class MoodleJdom {
                     else if (modulename.equals("assign"))
                         processAssign(out,activity);
                     else if (modulename.equals("label")) {
-                        System.out.println(title.substring(title.length()-3));
+                        //System.out.println(title.substring(title.length()-3));
                         if (title.substring(title.length()-3).equals("..."))
                             processLongLabel(out,activity);
                         else
