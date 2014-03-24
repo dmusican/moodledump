@@ -237,6 +237,10 @@ public class MoodleJdom {
                     else if (modulename.equals("lti"))
                         // lti, which is used for Piazza links, don't go public
                         continue;
+                    else if (modulename.equals("scheduler")) {
+                        // scheduled appointments doin'g go on public wbpage
+                        continue;
+                    }
                     else if (modulename.equals("resource"))
                         // resources are files I put in Moodle, I hardly ever
                         // use them, and not worth the trouble
