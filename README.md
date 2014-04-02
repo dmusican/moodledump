@@ -16,6 +16,10 @@ has a .mbz extension. Whatever, it's a zip file. Unzip it to the diretory
 "dump". The top level files in your Moodle dump (typically a bunch of xml files)
 should be sitting right in the dump directory, not a subdirectory.
 
+You then need to make sure you have an "output" directory ready to receive the
+results. I have a directory called outputtempl; just copy that entire tree into
+a new directory called output.
+
 Sitting in the main directory, run the script "runit". If all goes well, that's
 it.
 
