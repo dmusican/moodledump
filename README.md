@@ -12,9 +12,17 @@ worthwhile.
 Here's how to use it:
 
 In Moodle, backup your course. Download the zip file it creates. Sometimes it
-has a .mbz extension. Whatever, it's a zip file. Unzip it to the diretory
-"dump". The top level files in your Moodle dump (typically a bunch of xml files)
-should be sitting right in the dump directory, not a subdirectory.
+has a .mbz extension.
+
+ - In current versions of Moodle, it seems to be a compressed tar file, and I
+   decompress via tar xvfz.
+
+- In past versions of Moodle, it was a zip file, and I uncompressed it by
+  renaming it to a .zip file.
+
+Unzip it to the diretory "dump". The top level files in your Moodle dump
+(typically a bunch of xml files) should be sitting right in the dump directory,
+not a subdirectory.
 
 You then need to make sure you have an "output" directory ready to receive the
 results. I have a directory called outputtempl; just copy that entire tree into
