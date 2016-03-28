@@ -237,6 +237,9 @@ public class MoodleJdom {
                     else if (modulename.equals("lti"))
                         // lti, which is used for Piazza links, don't go public
                         continue;
+                    else if (modulename.equals("wiki"))
+                        // wiki, which is used for wiki links, ignore
+                        continue;
                     else if (modulename.equals("scheduler")) {
                         // scheduled appointments don't go on public webpage
                         continue;
