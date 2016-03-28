@@ -238,7 +238,11 @@ public class MoodleJdom {
                         // lti, which is used for Piazza links, don't go public
                         continue;
                     else if (modulename.equals("scheduler")) {
-                        // scheduled appointments doin'g go on public wbpage
+                        // scheduled appointments don't go on public webpage
+                        continue;
+                    }
+                    else if (modulename.equals("choice")) {
+                        // choice is a survey, which doesn't go on public webpage
                         continue;
                     }
                     else if (modulename.equals("resource"))
