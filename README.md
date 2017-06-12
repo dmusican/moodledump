@@ -20,24 +20,17 @@ has a .mbz extension.
 - In past versions of Moodle, it was a zip file, and I uncompressed it by
   renaming it to a .zip file.
 
-Unzip it to the diretory "dump". The top level files in your Moodle dump
-(typically a bunch of xml files) should be sitting right in the dump directory,
+Unzip it to a directory somewhere. The top level files in your Moodle dump
+(typically a bunch of xml files) should be sitting right in that dump directory,
 not a subdirectory.
 
 You then need to make sure you have an "output" directory ready to receive the
 results. I have a directory called outputtempl; just copy that entire tree into
-a new directory called output.
+a new directory called output, in some temp location somewhere.
 
-Sitting in the main directory, run the script "runit". If all goes well, that's
-it.
+Sitting in the main directory, first type
 
+  mvn clean compile assembly:single to build the code. (Make sure you have Maven installed).
 
-
-To compile project, make sure you have Maven installed, then
-
-mvn compile assembly:single
-
-To run it:
-
-java -cp target/moodledump-1.0-SNAPSHOT-jar-with-dependencies.jar edu.carleton.dmusicant.MoodleJdom 
+Then run the script "runit". If all goes well, that's it.
 

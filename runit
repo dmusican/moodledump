@@ -1,3 +1,2 @@
 #!/bin/sh
-export CLASSPATH=".:jdom/jdom-2.0.4.jar"
-javac MoodleJdom.java && java MoodleJdom
+java -cp target/moodledump-1.0-SNAPSHOT-jar-with-dependencies.jar edu.carleton.dmusicant.MoodleJdom $1 $2
