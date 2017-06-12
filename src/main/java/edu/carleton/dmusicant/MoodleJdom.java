@@ -70,7 +70,7 @@ public class MoodleJdom {
       String duedate = assign.getChildText("duedate");
 
 
-      PrintWriter assignout = new PrintWriter(new FileWriter("output/assigns/assign" + moduleid + ".html"));
+      PrintWriter assignout = new PrintWriter(new FileWriter(outputRootDirectory + "assigns/assign" + moduleid + ".html"));
 
       InputStream inputStream = 
          Thread.currentThread().getContextClassLoader().getResourceAsStream("assigntemplate.html");
@@ -112,7 +112,7 @@ public class MoodleJdom {
       String intro = assign.getChildText("intro");
 
 
-      PrintWriter assignout = new PrintWriter(new FileWriter("output/labels/label" + moduleid + ".html"));
+      PrintWriter assignout = new PrintWriter(new FileWriter(outputRootDirectory + "labels/label" + moduleid + ".html"));
 
       InputStream inputStream = 
          Thread.currentThread().getContextClassLoader().getResourceAsStream("labeltemplate.html");
@@ -148,7 +148,7 @@ public class MoodleJdom {
       String content = assign.getChildText("content");
 
 
-      PrintWriter assignout = new PrintWriter(new FileWriter("output/pages/page" + moduleid + ".html"));
+      PrintWriter assignout = new PrintWriter(new FileWriter(outputRootDirectory + "pages/page" + moduleid + ".html"));
 
       InputStream inputStream = 
          Thread.currentThread().getContextClassLoader().getResourceAsStream("assigntemplate.html");
@@ -172,10 +172,12 @@ public class MoodleJdom {
 
    public static void main(String[] args) throws JDOMException, IOException {
 
+      if (args.length !=2) {
+         System.out.println("Command-line arguments: inputDirectory outputDirectory");
+         System.exit(1);
+      }
       inputRootDirectory = args[0] + "/";
-      outputRootDirectory = args[1];
-      System.out.println(inputRootDirectory);
-      System.out.println(outputRootDirectory);
+      outputRootDirectory = args[1] + "/";
 
       SAXBuilder builder = new SAXBuilder();
       File file = new File(inputRootDirectory + "moodle_backup.xml");
@@ -195,7 +197,7 @@ public class MoodleJdom {
       InputStream inputStream = 
          Thread.currentThread().getContextClassLoader().getResourceAsStream("template.html");
       Scanner template = new Scanner(inputStream);
-      PrintWriter out = new PrintWriter(new FileWriter("output/index.html"));
+      PrintWriter out = new PrintWriter(new FileWriter(outputRootDirectory + "index.html"));
       while (template.hasNextLine()) {
          String line = template.nextLine();
          if (line.equals("|||COURSETITLE|||"))
