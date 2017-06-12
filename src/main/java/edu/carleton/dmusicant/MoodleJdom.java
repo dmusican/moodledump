@@ -1,6 +1,8 @@
 // HTML blocks don't backup. Stop using them for links in the future,
 // to make conversion of them easier.
 
+package edu.carleton.dmusicant;
+
 import org.jdom2.*;
 import org.jdom2.input.*;
 import java.io.*;
