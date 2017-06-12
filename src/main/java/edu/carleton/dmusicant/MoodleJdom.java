@@ -5,6 +5,9 @@ package edu.carleton.dmusicant;
 
 import org.jdom2.*;
 import org.jdom2.input.*;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import java.io.*;
 import java.util.*;
 
@@ -68,7 +71,16 @@ public class MoodleJdom {
       Element assign = subactivity.getChild("assign");
       String intro = assign.getChildText("intro");
       String duedate = assign.getChildText("duedate");
+      String introFormat = assign.getChildText("introformat");
 
+      // If intro is in markdown format, reformat as HTML. Moodle uses a 4
+      // to mean markdown.
+      if (introFormat.equals("4")) {
+         Parser parser = Parser.builder().build();
+         Node document = parser.parse(intro);
+         HtmlRenderer renderer = HtmlRenderer.builder().build();
+         intro = renderer.render(document);
+      }
 
       PrintWriter assignout = new PrintWriter(new FileWriter(outputRootDirectory + "assigns/assign" + moduleid + ".html"));
 
