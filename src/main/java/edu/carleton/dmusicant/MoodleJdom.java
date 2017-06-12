@@ -68,7 +68,9 @@ public class MoodleJdom {
 
         PrintWriter assignout = new PrintWriter(new FileWriter("output/assigns/assign" + moduleid + ".html"));
 
-        Scanner template = new Scanner(new File("assigntemplate.html"));
+        InputStream inputStream = 
+           Thread.currentThread().getContextClassLoader().getResourceAsStream("assigntemplate.html");
+        Scanner template = new Scanner(inputStream);
 
         while (template.hasNextLine()) {
             String line = template.nextLine();
@@ -108,7 +110,9 @@ public class MoodleJdom {
 
         PrintWriter assignout = new PrintWriter(new FileWriter("output/labels/label" + moduleid + ".html"));
 
-        Scanner template = new Scanner(new File("labeltemplate.html"));
+        InputStream inputStream = 
+           Thread.currentThread().getContextClassLoader().getResourceAsStream("labeltemplate.html");
+        Scanner template = new Scanner(inputStream);
 
         while (template.hasNextLine()) {
             String line = template.nextLine();
@@ -148,7 +152,9 @@ public class MoodleJdom {
 
         PrintWriter assignout = new PrintWriter(new FileWriter("output/pages/page" + moduleid + ".html"));
 
-        Scanner template = new Scanner(new File("assigntemplate.html"));
+        InputStream inputStream = 
+           Thread.currentThread().getContextClassLoader().getResourceAsStream("assigntemplate.html");
+        Scanner template = new Scanner(inputStream);
 
         while (template.hasNextLine()) {
             String line = template.nextLine();
@@ -209,7 +215,9 @@ public class MoodleJdom {
 
         String prevSectionid = "";
         int weekNum = 0;
-        Scanner template = new Scanner(new File("template.html"));
+        InputStream inputStream = 
+           Thread.currentThread().getContextClassLoader().getResourceAsStream("template.html");
+        Scanner template = new Scanner(inputStream);
         PrintWriter out = new PrintWriter(new FileWriter("output/index.html"));
         while (template.hasNextLine()) {
             String line = template.nextLine();
