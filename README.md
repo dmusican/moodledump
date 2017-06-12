@@ -32,3 +32,12 @@ Sitting in the main directory, run the script "runit". If all goes well, that's
 it.
 
 
+
+To compile project, make sure you have Maven installed, then
+
+mvn compile assembly:single
+
+To run it:
+
+java -cp target/moodledump-1.0-SNAPSHOT-jar-with-dependencies.jar edu.carleton.dmusicant.MoodleJdom 
+
