@@ -35,6 +35,19 @@ public class MoodleJdom {
    }
 
 
+    public static String generateHtml(String text, String format) {
+      // If intro is in markdown format, reformat as HTML. Moodle uses a 4
+      // to mean markdown.
+      if (format.equals("4")) {
+         Parser parser = Parser.builder().build();
+         Node document = parser.parse(text);
+         HtmlRenderer renderer = HtmlRenderer.builder().build();
+         return renderer.render(document);
+      } else {
+          return text;
+      }
+    }
+    
    public static void processUrl(PrintWriter out, Element activity) throws JDOMException, IOException {
       String modulename = activity.getChildText("modulename");
       String moduleid = activity.getChildText("moduleid");
@@ -51,10 +64,27 @@ public class MoodleJdom {
    }
 
    public static void processLabel(PrintWriter out, Element activity) throws JDOMException, IOException {
+
       String modulename = activity.getChildText("modulename");
       String moduleid = activity.getChildText("moduleid");
       String title = activity.getChildText("title");
-      out.println("<dt>" + title + "</dt>");
+      String directory = activity.getChildText("directory");
+
+      File file = new File(inputRootDirectory + directory + "/label.xml");
+      SAXBuilder builder = new SAXBuilder();
+      Document doc = builder.build(file);
+      Element subactivity = doc.getRootElement();
+      Element assign = subactivity.getChild("label");
+      String intro = assign.getChildText("intro");
+      String introFormat = assign.getChildText("introformat");
+
+      intro = generateHtml(intro, introFormat);
+
+
+      // String modulename = activity.getChildText("modulename");
+      // String moduleid = activity.getChildText("moduleid");
+      // String title = activity.getChildText("title");
+      out.println("<dt>" + intro + "</dt>");
    }
 
 
@@ -73,14 +103,7 @@ public class MoodleJdom {
       String duedate = assign.getChildText("duedate");
       String introFormat = assign.getChildText("introformat");
 
-      // If intro is in markdown format, reformat as HTML. Moodle uses a 4
-      // to mean markdown.
-      if (introFormat.equals("4")) {
-         Parser parser = Parser.builder().build();
-         Node document = parser.parse(intro);
-         HtmlRenderer renderer = HtmlRenderer.builder().build();
-         intro = renderer.render(document);
-      }
+      intro = generateHtml(intro, introFormat);
 
       PrintWriter assignout = new PrintWriter(new FileWriter(outputRootDirectory + "assigns/assign" + moduleid + ".html"));
 
@@ -122,7 +145,9 @@ public class MoodleJdom {
       Element assign = subactivity.getChild("label");
       //String title = assign.getChildText("name");
       String intro = assign.getChildText("intro");
+      String introFormat = assign.getChildText("introformat");
 
+      intro = generateHtml(intro, introFormat);
 
       PrintWriter assignout = new PrintWriter(new FileWriter(outputRootDirectory + "labels/label" + moduleid + ".html"));
 
