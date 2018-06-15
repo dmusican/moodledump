@@ -183,7 +183,8 @@ public class MoodleJdom {
       Element assign = subactivity.getChild("page");
       String name = assign.getChildText("name");
       String content = assign.getChildText("content");
-
+      String contentFormat = assign.getChildText("contentformat");
+      content = generateHtml(content, contentFormat);
 
       PrintWriter assignout = new PrintWriter(new FileWriter(outputRootDirectory + "pages/page" + moduleid + ".html"));
 
