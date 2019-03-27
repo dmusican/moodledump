@@ -10,6 +10,7 @@ import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 import java.io.*;
 import java.util.*;
+import java.util.regex.*;
 
 public class MoodleJdom {
 
@@ -60,6 +61,20 @@ public class MoodleJdom {
       Element subactivity = doc.getRootElement();
       Element url = subactivity.getChild("url");
       String externalurl = url.getChildText("externalurl");
+      String parameters = url.getChildText("parameters");
+      System.out.println(parameters);
+      // Major hack here just to pull out the listed parameters
+      Scanner paramScanner = new Scanner(parameters);
+      String parameterSuffix = "";
+      String pattern = "\"(.*?)\"";
+      String code = paramScanner.findInLine(pattern);
+      while (code != null) {
+          parameterSuffix += code;
+          code = paramScanner.findInLine(pattern);
+      }
+      System.out.println(parameterSuffix);
+      //System.out.println(paramScanner.findInLine("\"(.*?)\""));
+      //System.out.println(paramScanner.findInLine("\"(.*?)\""));
       out.println("<dt><a href=\"" + externalurl + "\">" + title + "</a></dt>");
    }
 
