@@ -62,21 +62,35 @@ public class MoodleJdom {
       Element url = subactivity.getChild("url");
       String externalurl = url.getChildText("externalurl");
       String parameters = url.getChildText("parameters");
-      System.out.println(parameters);
       // Major hack here just to pull out the listed parameters
       Scanner paramScanner = new Scanner(parameters);
       String parameterSuffix = "";
       String pattern = "\"(.*?)\"";
       String code = paramScanner.findInLine(pattern);
       while (code != null) {
-          parameterSuffix += code;
+          code = code.substring(1,code.length()-1);
+          String parameterValue = getCourseParameter(code);
+          if (parameterValue != null) {
+              if (parameterSuffix.length() > 1) {
+                  parameterSuffix += "&";
+              } else {
+                  parameterSuffix = "?";
+              }
+              parameterSuffix += (code + "=" + parameterValue);
+          }
           code = paramScanner.findInLine(pattern);
       }
-      System.out.println(parameterSuffix);
-      //System.out.println(paramScanner.findInLine("\"(.*?)\""));
-      //System.out.println(paramScanner.findInLine("\"(.*?)\""));
-      out.println("<dt><a href=\"" + externalurl + "\">" + title + "</a></dt>");
+      out.println("<dt><a href=\"" + externalurl + parameterSuffix + "\">" + title + "</a></dt>");
    }
+
+    public static String getCourseParameter(String parameter) throws JDOMException, IOException {
+      File file = new File(inputRootDirectory + "/course/course.xml");
+      SAXBuilder builder = new SAXBuilder();
+      Document doc = builder.build(file);
+      Element course = doc.getRootElement();
+      return course.getChildText(parameter);
+   }    
+
 
    public static void processLabel(PrintWriter out, Element activity) throws JDOMException, IOException {
 
@@ -220,7 +234,6 @@ public class MoodleJdom {
 
       out.println("<dt><a href=\"pages/page" + moduleid + ".html\">" + title + "</a></dt>");
    }
-
 
 
    public static void main(String[] args) throws JDOMException, IOException {
