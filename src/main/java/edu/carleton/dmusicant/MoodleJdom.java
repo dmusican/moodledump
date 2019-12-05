@@ -307,6 +307,10 @@ public class MoodleJdom {
                   // resources are files I put in Moodle, I hardly ever
                   // use them, and not worth the trouble
                   continue;
+               else if (modulename.equals("folder"))
+                  // folders are collections I put in Moodle, I hardly ever
+                  // use them, and not worth the trouble
+                  continue;
                else if (modulename.equals("url"))
                   processUrl(out,activity);
                else if (modulename.equals("assign"))
