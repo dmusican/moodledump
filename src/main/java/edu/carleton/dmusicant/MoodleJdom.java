@@ -303,6 +303,10 @@ public class MoodleJdom {
                   // choice is a survey, which doesn't go on public webpage
                   continue;
                }
+               else if (modulename.equals("quiz")) {
+                  // choice is a quiz, which doesn't go on public webpage
+                  continue;
+               }
                else if (modulename.equals("resource"))
                   // resources are files I put in Moodle, I hardly ever
                   // use them, and not worth the trouble
