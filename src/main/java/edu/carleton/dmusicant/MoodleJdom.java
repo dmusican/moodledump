@@ -286,6 +286,10 @@ public class MoodleJdom {
                   // I don't want invisible activies appearing
                   continue;
                     
+               else if (modulename.equals("feedback"))
+                  // feedback are surveys that I put in Moodle, they're
+                  // not relevant for public viewing
+                  continue;
                else if (modulename.equals("forum"))
                   // forums don't go on my public webpage
                   continue;
@@ -314,6 +318,10 @@ public class MoodleJdom {
                else if (modulename.equals("folder"))
                   // folders are collections I put in Moodle, I hardly ever
                   // use them, and not worth the trouble
+                  continue;
+               else if (modulename.equals("questionnaire"))
+                  // questionnaires are surveys that I put in Moodle, they're
+                  // not relevant for public viewing
                   continue;
                else if (modulename.equals("url"))
                   processUrl(out,activity);
